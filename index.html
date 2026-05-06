@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>罗浩宇 | 后端开发 / AI 应用开发</title>
+  <meta name="description" content="湖南师范大学电子信息工程学生，求职后端开发/AI应用开发实习岗位">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0f172a',
+            accent: '#3b82f6',
+            highlight: '#10b981',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    * {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+    
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .skill-tag {
+      transition: all 0.2s ease;
+    }
+    
+    .skill-tag:hover {
+      transform: scale(1.05);
+    }
+    
+    .section-fade {
+      animation: fadeIn 0.6s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .typing-effect {
+      overflow: hidden;
+      border-right: 2px solid #3b82f6;
+      animation: blink 0.7s infinite;
+    }
+    
+    @keyframes blink {
+      0%, 100% { border-color: #3b82f6; }
+      50% { border-color: transparent; }
+    }
+    
+    .float-animation {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .pulse-dot {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* 自定义滚动条 */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #94a3b8;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #64748b;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+  <!-- 导航栏 -->
+  <nav class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md z-50 border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-6 py-4">
+      <div class="flex items-center justify-between">
+        <a href="#" class="text-xl font-bold text-primary">
+          <span class="gradient-text">罗浩宇</span>
+        </a>
+        <div class="hidden md:flex items-center gap-8">
+          <a href="#about" class="text-slate-600 hover:text-accent transition-colors">关于</a>
+          <a href="#skills" class="text-slate-600 hover:text-accent transition-colors">技能</a>
+          <a href="#projects" class="text-slate-600 hover:text-accent transition-colors">项目</a>
+          <a href="#education" class="text-slate-600 hover:text-accent transition-colors">教育</a>
+          <a href="#contact" class="px-4 py-2 bg-accent text-white rounded-lg hover:bg-blue-600 transition-colors">联系我</a>
+        </div>
+        <!-- 移动端菜单按钮 -->
+        <button id="mobile-menu-btn" class="md:hidden p-2">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+      <!-- 移动端菜单 -->
+      <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200 pt-4">
+        <div class="flex flex-col gap-4">
+          <a href="#about" class="text-slate-600 hover:text-accent transition-colors">关于</a>
+          <a href="#skills" class="text-slate-600 hover:text-accent transition-colors">技能</a>
+          <a href="#projects" class="text-slate-600 hover:text-accent transition-colors">项目</a>
+          <a href="#education" class="text-slate-600 hover:text-accent transition-colors">教育</a>
+          <a href="#contact" class="px-4 py-2 bg-accent text-white rounded-lg text-center hover:bg-blue-600 transition-colors">联系我</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="about" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 pt-20">
+    <div class="max-w-6xl mx-auto px-6 py-20">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="section-fade">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="w-2 h-2 bg-highlight rounded-full pulse-dot"></span>
+            <span class="text-highlight text-sm font-medium">正在寻找实习机会</span>
+          </div>
+          <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">
+            你好，我是<br>
+            <span class="gradient-text">罗浩宇</span>
+          </h1>
+          <p class="text-xl md:text-2xl text-slate-300 mb-6">
+            后端开发工程师 <span class="text-slate-500">|</span> AI 应用探索者
+          </p>
+          <p class="text-slate-400 mb-8 leading-relaxed">
+            湖南师范大学电子信息工程专业在读，热衷于用代码解决实际问题。
+            对 AI 与后端融合方向充满好奇，正在学习 Spring AI 与大模型应用开发。
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="./resume.docx" download="罗浩宇-简历.docx" class="px-6 py-3 bg-accent text-white rounded-lg font-medium hover:bg-blue-600 transition-colors flex items-center gap-2">
+              <i data-lucide="download" class="w-5 h-5"></i>
+              下载简历
+            </a>
+            <a href="#projects" class="px-6 py-3 bg-slate-700 text-white rounded-lg font-medium hover:bg-slate-600 transition-colors flex items-center gap-2">
+              <i data-lucide="folder-open" class="w-5 h-5"></i>
+              查看项目
+            </a>
+            <a href="https://github.com/Justin1uo" target="_blank" class="px-6 py-3 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700 transition-colors flex items-center gap-2">
+              <i data-lucide="github" class="w-5 h-5"></i>
+              GitHub
+            </a>
+          </div>
+        </div>
+        <div class="flex justify-center section-fade" style="animation-delay: 0.2s">
+          <div class="relative">
+            <div class="w-64 h-64 md:w-80 md:h-80 rounded-full bg-gradient-to-br from-accent to-highlight p-1 float-animation">
+              <div class="w-full h-full rounded-full bg-slate-800 flex items-center justify-center">
+                <span class="text-6xl md:text-8xl font-bold gradient-text">罗</span>
+              </div>
+            </div>
+            <div class="absolute -bottom-4 -right-4 bg-white rounded-lg shadow-lg p-3 flex items-center gap-2">
+              <i data-lucide="graduation-cap" class="w-5 h-5 text-accent"></i>
+              <span class="text-sm font-medium text-slate-700">211 工程院校</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 快速信息 -->
+  <section class="bg-white py-12 border-y border-slate-200">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div class="text-center">
+          <div class="text-3xl font-bold text-accent mb-1">前 20%</div>
+          <div class="text-slate-500 text-sm">专业排名</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-highlight mb-1">CET-4</div>
+          <div class="text-slate-500 text-sm">566 分</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-accent mb-1">深圳</div>
+          <div class="text-slate-500 text-sm">意向城市</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-highlight mb-1">7 月起</div>
+          <div class="text-slate-500 text-sm">可全职实习</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 技能展示 -->
+  <section id="skills" class="py-20 bg-slate-50">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16 section-fade">
+        <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">技术技能</h2>
+        <p class="text-slate-500 max-w-2xl mx-auto">扎实的技术基础，完善的项目经验，持续学习的态度</p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- 后端开发 -->
+        <div class="bg-white rounded-2xl p-6 card-hover border border-slate-200 section-fade">
+          <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+            <i data-lucide="server" class="w-6 h-6 text-accent"></i>
+          </div>
+          <h3 class="text-lg font-semibold text-primary mb-3">后端开发</h3>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-tag px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">Java SE</span>
+            <span class="skill-tag px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">Spring Boot</span>
+            <span class="skill-tag px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">RESTful API</span>
+            <span class="skill-tag px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">IOC/AOP</span>
+            <span class="skill-tag px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">Lombok</span>
+            <span class="skill-tag px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">Docker</span>
+          </div>
+        </div>
+
+        <!-- 数据库 -->
+        <div class="bg-white rounded-2xl p-6 card-hover border border-slate-200 section-fade" style="animation-delay: 0.1s">
+          <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+            <i data-lucide="database" class="w-6 h-6 text-highlight"></i>
+          </div>
+          <h3 class="text-lg font-semibold text-primary mb-3">数据库</h3>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-tag px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm">MySQL</span>
+            <span class="skill-tag px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm">Redis</span>
+            <span class="skill-tag px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm">索引优化</span>
+            <span class="skill-tag px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm">事务管理</span>
+          </div>
+        </div>
+
+        <!-- 中间件 & 工具 -->
+        <div class="bg-white rounded-2xl p-6 card-hover border border-slate-200 section-fade" style="animation-delay: 0.2s">
+          <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+            <i data-lucide="wrench" class="w-6 h-6 text-purple-600"></i>
+          </div>
+          <h3 class="text-lg font-semibold text-primary mb-3">中间件 & 工具</h3>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-tag px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm">Linux</span>
+            <span class="skill-tag px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm">Git</span>
+            <span class="skill-tag px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm">Nginx</span>
+            <span class="skill-tag px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm">JWT</span>
+            <span class="skill-tag px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm">阿里云 OSS</span>
+          </div>
+        </div>
+
+        <!-- AI 工程 -->
+        <div class="bg-white rounded-2xl p-6 card-hover border border-slate-200 section-fade" style="animation-delay: 0.3s">
+          <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4">
+            <i data-lucide="brain" class="w-6 h-6 text-amber-600"></i>
+          </div>
+          <h3 class="text-lg font-semibold text-primary mb-3">AI 工程</h3>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-tag px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-sm">LLM</span>
+            <span class="skill-tag px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-sm">Prompt Engineering</span>
+            <span class="skill-tag px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-sm">MCP</span>
+            <span class="skill-tag px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-sm">Spring AI</span>
+            <span class="skill-tag px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-sm">Trae/Cursor</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 项目经历 -->
+  <section id="projects" class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16 section-fade">
+        <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">项目经历</h2>
+        <p class="text-slate-500 max-w-2xl mx-auto">从实际项目中积累经验，在实践中成长</p>
+      </div>
+
+      <!-- 苍穹外卖项目 -->
+      <div class="max-w-4xl mx-auto section-fade">
+        <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-8 md:p-10 text-white">
+          <div class="flex flex-wrap items-center gap-4 mb-6">
+            <h3 class="text-2xl font-bold">苍穹外卖</h3>
+            <span class="px-3 py-1 bg-accent/20 text-accent rounded-full text-sm font-medium">主要项目</span>
+            <span class="px-3 py-1 bg-highlight/20 text-highlight rounded-full text-sm">2025.12 - 2026.05</span>
+          </div>
+          <p class="text-slate-300 mb-6 text-lg">
+            基于 Spring Boot 的前后端分离外卖平台，包含用户端、商家端、管理端三端，涵盖菜品管理、购物车、订单全流程、用户认证、报表统计等核心功能。
+          </p>
+          
+          <div class="grid md:grid-cols-2 gap-4 mb-8">
+            <div class="bg-slate-700/50 rounded-xl p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <i data-lucide="check-circle" class="w-5 h-5 text-highlight"></i>
+                <span class="font-medium">技术栈</span>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-2 py-1 bg-slate-600 rounded text-sm">Spring Boot</span>
+                <span class="px-2 py-1 bg-slate-600 rounded text-sm">MySQL</span>
+                <span class="px-2 py-1 bg-slate-600 rounded text-sm">Redis</span>
+                <span class="px-2 py-1 bg-slate-600 rounded text-sm">JWT</span>
+                <span class="px-2 py-1 bg-slate-600 rounded text-sm">Nginx</span>
+                <span class="px-2 py-1 bg-slate-600 rounded text-sm">WebSocket</span>
+              </div>
+            </div>
+            <div class="bg-slate-700/50 rounded-xl p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <i data-lucide="zap" class="w-5 h-5 text-amber-400"></i>
+                <span class="font-medium">性能优化</span>
+              </div>
+              <p class="text-slate-400 text-sm">
+                使用 Redis 缓存菜品分类数据，结合 @Cacheable/@CacheEvict 注解管理缓存生命周期，减少高频查询数据库压力
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="flex items-start gap-3">
+              <i data-lucide="circle-dot" class="w-5 h-5 text-accent mt-1 flex-shrink-0"></i>
+              <p class="text-slate-300">实现管理端 + 商家端完整业务模块，包括员工管理、菜品/套餐 CRUD、分类管理、订单状态机流转（待接单→备餐→派送→完成/取消）</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <i data-lucide="circle-dot" class="w-5 h-5 text-accent mt-1 flex-shrink-0"></i>
+              <p class="text-slate-300">使用 JWT + 自定义拦截器实现双端（管理员/用户）Token 鉴权，做到接口级权限隔离</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <i data-lucide="circle-dot" class="w-5 h-5 text-accent mt-1 flex-shrink-0"></i>
+              <p class="text-slate-300">集成阿里云 OSS 实现菜品图片上传，封装统一上传工具类，支持文件类型校验与 URL 回显</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <i data-lucide="circle-dot" class="w-5 h-5 text-accent mt-1 flex-shrink-0"></i>
+              <p class="text-slate-300">采用 WebSocket 推送新订单提醒与催单通知，实现商家端实时消息感知</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <i data-lucide="circle-dot" class="w-5 h-5 text-accent mt-1 flex-shrink-0"></i>
+              <p class="text-slate-300">利用 Apache POI 导出近 30 日营业额、订单量、客单价等运营数据 Excel 报表</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <i data-lucide="circle-dot" class="w-5 h-5 text-accent mt-1 flex-shrink-0"></i>
+              <p class="text-slate-300">借助 Trae AI Coding 工具辅助编写样板代码与 SQL 语句，调试周期平均缩短约 40%</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 教育背景 & 获奖 -->
+  <section id="education" class="py-20 bg-slate-50">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16 section-fade">
+        <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">教育背景 & 荣誉</h2>
+        <p class="text-slate-500 max-w-2xl mx-auto">扎实的学术基础，多元的技能培养</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <!-- 教育背景 -->
+        <div class="bg-white rounded-2xl p-8 card-hover border border-slate-200 section-fade">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center">
+              <i data-lucide="book-open" class="w-5 h-5 text-accent"></i>
+            </div>
+            <h3 class="text-xl font-bold text-primary">教育背景</h3>
+          </div>
+          
+          <div class="border-l-2 border-accent pl-6 space-y-6">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <h4 class="font-semibold text-primary">湖南师范大学</h4>
+                <span class="text-sm text-slate-500">2024.09 - 2028.06</span>
+              </div>
+              <p class="text-accent font-medium mb-2">电子信息工程 · 本科在读 · 211 工程</p>
+              <div class="flex items-center gap-4 text-sm text-slate-500">
+                <span>预计 2028 年毕业</span>
+                <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                <span>专业排名前 20%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-6 border-t border-slate-100">
+            <p class="text-sm font-medium text-slate-700 mb-3">核心课程</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-lg text-sm">JAVA语言程序设计</span>
+              <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-lg text-sm">C语言程序设计</span>
+              <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-lg text-sm">数据结构</span>
+              <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-lg text-sm">计算机网络</span>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-6 border-t border-slate-100">
+            <p class="text-sm font-medium text-slate-700 mb-3">英语水平</p>
+            <div class="flex items-center gap-3">
+              <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium">CET-4</span>
+              <span class="text-2xl font-bold text-accent">566</span>
+              <span class="text-slate-500 text-sm">分</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 获奖经历 -->
+        <div class="bg-white rounded-2xl p-8 card-hover border border-slate-200 section-fade" style="animation-delay: 0.1s">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-highlight/10 rounded-lg flex items-center justify-center">
+              <i data-lucide="trophy" class="w-5 h-5 text-highlight"></i>
+            </div>
+            <h3 class="text-xl font-bold text-primary">获奖经历</h3>
+          </div>
+
+          <div class="space-y-6">
+            <div class="flex gap-4">
+              <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i data-lucide="medal" class="w-6 h-6 text-amber-600"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold text-primary mb-1">全国大学生数学竞赛</h4>
+                <p class="text-sm text-slate-500 mb-2">非数学专业组 · 初赛</p>
+                <div class="inline-flex items-center gap-1 px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-sm font-medium">
+                  <i data-lucide="award" class="w-4 h-4"></i>
+                  二等奖
+                </div>
+                <p class="text-sm text-slate-400 mt-1">2023 年</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i data-lucide="star" class="w-6 h-6 text-blue-600"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold text-primary mb-1">湖南师范大学综合奖学金</h4>
+                <p class="text-sm text-slate-500 mb-2">校级奖学金</p>
+                <div class="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
+                  <i data-lucide="badge" class="w-4 h-4"></i>
+                  三等奖
+                </div>
+                <p class="text-sm text-slate-400 mt-1">2025 年</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 自我评价 -->
+  <section class="py-20 bg-gradient-to-br from-accent to-highlight">
+    <div class="max-w-4xl mx-auto px-6 text-center section-fade">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-8">自我评价</h2>
+      <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 md:p-12">
+        <p class="text-xl text-white/90 leading-relaxed mb-8">
+          对后端开发与 AI 应用方向有浓厚兴趣，具备扎实的 Java 后端技术栈与完整的项目实战经验。
+          关注 AI 行业动态，理解大模型工作原理，熟悉 <strong>Prompt Engineering</strong> 与 <strong>MCP</strong> 等前沿工程范式，
+          并持续学习 Spring AI 以跟进 AI + 后端融合方向。
+        </p>
+        <p class="text-xl text-white/90 leading-relaxed">
+          擅长借助 AI Coding 工具（Trae / Cursor）高效开发，具备快速学习与自驱能力。
+        </p>
+        <div class="mt-8 flex flex-wrap justify-center gap-4">
+          <span class="px-4 py-2 bg-white/20 text-white rounded-full text-sm">可全职实习</span>
+          <span class="px-4 py-2 bg-white/20 text-white rounded-full text-sm">自驱力强</span>
+          <span class="px-4 py-2 bg-white/20 text-white rounded-full text-sm">快速学习</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 联系方式 -->
+  <section id="contact" class="py-20 bg-slate-900">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="text-center mb-16 section-fade">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">联系我</h2>
+        <p class="text-slate-400">对简历有任何问题，或想进一步交流，欢迎联系我</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <a href="./resume.docx" download="罗浩宇-简历.docx" class="bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl p-6 text-center card-hover border border-blue-500 section-fade">
+          <div class="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="download" class="w-7 h-7 text-white"></i>
+          </div>
+          <h3 class="font-semibold text-white mb-1">下载简历</h3>
+          <p class="text-blue-200 text-sm">DOCX 格式</p>
+        </a>
+
+        <a href="mailto:3080048151@qq.com" class="bg-slate-800 rounded-2xl p-6 text-center card-hover border border-slate-700 section-fade" style="animation-delay: 0.1s">
+          <div class="w-14 h-14 bg-accent/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="mail" class="w-7 h-7 text-accent"></i>
+          </div>
+          <h3 class="font-semibold text-white mb-1">邮箱</h3>
+          <p class="text-slate-400 text-sm">3080048151@qq.com</p>
+        </a>
+
+        <a href="tel:18570049418" class="bg-slate-800 rounded-2xl p-6 text-center card-hover border border-slate-700 section-fade" style="animation-delay: 0.2s">
+          <div class="w-14 h-14 bg-highlight/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="phone" class="w-7 h-7 text-highlight"></i>
+          </div>
+          <h3 class="font-semibold text-white mb-1">电话</h3>
+          <p class="text-slate-400 text-sm">185 7004 9418</p>
+        </a>
+
+        <a href="https://github.com/Justin1uo" target="_blank" class="bg-slate-800 rounded-2xl p-6 text-center card-hover border border-slate-700 section-fade" style="animation-delay: 0.3s">
+          <div class="w-14 h-14 bg-purple-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="github" class="w-7 h-7 text-purple-400"></i>
+          </div>
+          <h3 class="font-semibold text-white mb-1">GitHub</h3>
+          <p class="text-slate-400 text-sm">github.com/Justin1uo</p>
+        </a>
+      </div>
+
+      <div class="text-center section-fade" style="animation-delay: 0.3s">
+        <p class="text-slate-400 mb-4">意向城市</p>
+        <div class="flex justify-center gap-4">
+          <span class="px-6 py-3 bg-slate-800 text-white rounded-full border border-slate-700">深圳</span>
+          <span class="px-6 py-3 bg-slate-800 text-white rounded-full border border-slate-700">广州</span>
+          <span class="px-6 py-3 bg-slate-800 text-white rounded-full border border-slate-700">长沙</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="bg-slate-950 py-8">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <p class="text-slate-500 text-sm">
+        © 2026 罗浩宇 · 后端开发 / AI 应用开发
+      </p>
+      <p class="text-slate-600 text-xs mt-2">
+        Built with Tailwind CSS
+      </p>
+    </div>
+  </footer>
+
+  <!-- 返回顶部 -->
+  <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 bg-accent text-white rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:bg-blue-600">
+    <i data-lucide="arrow-up" class="w-5 h-5"></i>
+  </button>
+
+  <script>
+    // 初始化 Lucide 图标
+    lucide.createIcons();
+
+    // 移动端菜单
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // 滚动动画
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.section-fade').forEach(el => {
+      el.style.animationPlayState = 'paused';
+      observer.observe(el);
+    });
+
+    // 返回顶部
+    const backToTop = document.getElementById('back-to-top');
+    
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        backToTop.classList.remove('opacity-0', 'invisible');
+        backToTop.classList.add('opacity-100', 'visible');
+      } else {
+        backToTop.classList.add('opacity-0', 'invisible');
+        backToTop.classList.remove('opacity-100', 'visible');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          const offsetTop = target.offsetTop - 80;
+          window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
+          });
+          // 关闭移动端菜单
+          mobileMenu.classList.add('hidden');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
