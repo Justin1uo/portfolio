@@ -4,645 +4,629 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>罗浩宇 | 后端开发 / AI 应用开发</title>
-  <meta name="description" content="湖南师范大学电子信息工程学生，求职后端开发/AI应用开发实习岗位">
-  
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#0f172a',
-            accent: '#3b82f6',
-            highlight: '#10b981',
-          },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-          },
-        }
-      }
-    }
-  </script>
-  
   <style>
-    * {
-      scroll-behavior: smooth;
+    /* ========== CSS Variables & Reset ========== */
+    :root {
+      --primary: #1A5CA8;
+      --primary-light: #2B7DE8;
+      --primary-dark: #134A8A;
+      --accent: #00C9A7;
+      --bg: #FAFBFC;
+      --bg-card: #FFFFFF;
+      --text: #1A1A2E;
+      --text-secondary: #555555;
+      --text-muted: #888888;
+      --border: #E8ECF0;
+      --shadow: 0 2px 12px rgba(0,0,0,0.06);
+      --shadow-hover: 0 8px 30px rgba(26,92,168,0.12);
+      --radius: 12px;
+      --transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
     }
-    
-    .gradient-text {
-      background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    a { color: var(--primary); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--primary-light); }
+
+    /* ========== Navbar ========== */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow var(--transition);
     }
-    
-    .card-hover {
-      transition: all 0.3s ease;
+    .navbar.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+    .navbar-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 64px;
     }
-    
-    .card-hover:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    .navbar-logo {
+      font-size: 20px; font-weight: 700; color: var(--primary);
+      letter-spacing: -0.5px;
     }
-    
-    .skill-tag {
-      transition: all 0.2s ease;
+    .navbar-links { display: flex; gap: 32px; list-style: none; }
+    .navbar-links a {
+      font-size: 14px; font-weight: 500; color: var(--text-secondary);
+      position: relative; padding: 4px 0;
     }
-    
-    .skill-tag:hover {
-      transform: scale(1.05);
+    .navbar-links a::after {
+      content: ""; position: absolute; bottom: -2px; left: 0;
+      width: 0; height: 2px; background: var(--primary);
+      transition: width var(--transition);
     }
-    
-    .section-fade {
-      animation: fadeIn 0.6s ease-out;
-    }
-    
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    .typing-effect {
-      overflow: hidden;
-      border-right: 2px solid #3b82f6;
-      animation: blink 0.7s infinite;
-    }
-    
-    @keyframes blink {
-      0%, 100% { border-color: #3b82f6; }
-      50% { border-color: transparent; }
-    }
-    
-    .float-animation {
-      animation: float 3s ease-in-out infinite;
-    }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-    
-    .pulse-dot {
-      animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+    .navbar-links a:hover::after { width: 100%; }
+    .navbar-links a:hover { color: var(--primary); }
+    .mobile-toggle { display: none; background: none; border: none; cursor: pointer; }
+    .mobile-toggle span {
+      display: block; width: 22px; height: 2px; background: var(--text);
+      margin: 5px 0; transition: var(--transition);
     }
 
-    /* 自定义滚动条 */
-    ::-webkit-scrollbar {
-      width: 8px;
+    /* ========== Hero ========== */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 100px 32px 60px;
+      background: linear-gradient(135deg, #F0F6FF 0%, #FAFBFC 50%, #F0FFF8 100%);
+      position: relative; overflow: hidden;
     }
-    
-    ::-webkit-scrollbar-track {
-      background: #f1f5f9;
+    .hero::before {
+      content: ""; position: absolute; top: -50%; right: -20%;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(26,92,168,0.05) 0%, transparent 70%);
     }
-    
-    ::-webkit-scrollbar-thumb {
-      background: #94a3b8;
-      border-radius: 4px;
+    .hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; position: relative; }
+    .hero-tag {
+      display: inline-block; padding: 6px 16px; border-radius: 20px;
+      background: rgba(26,92,168,0.08); color: var(--primary);
+      font-size: 13px; font-weight: 600; margin-bottom: 20px;
+      letter-spacing: 0.5px;
     }
-    
-    ::-webkit-scrollbar-thumb:hover {
-      background: #64748b;
+    .hero h1 {
+      font-size: clamp(40px, 6vw, 64px); font-weight: 800;
+      line-height: 1.1; margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 18px; color: var(--text-secondary);
+      margin-bottom: 32px; max-width: 540px; line-height: 1.8;
+    }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; border-radius: 8px; font-size: 15px;
+      font-weight: 600; cursor: pointer; border: none;
+      transition: all var(--transition);
+    }
+    .btn-primary {
+      background: var(--primary); color: #fff;
+      box-shadow: 0 4px 16px rgba(26,92,168,0.25);
+    }
+    .btn-primary:hover {
+      background: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(26,92,168,0.35);
+    }
+    .btn-outline {
+      background: transparent; color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    .btn-outline:hover {
+      background: var(--primary); color: #fff;
+      transform: translateY(-2px);
+    }
+    .hero-badges {
+      display: flex; gap: 12px; margin-top: 40px; flex-wrap: wrap;
+    }
+    .badge {
+      padding: 8px 16px; border-radius: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      font-size: 13px; color: var(--text-secondary);
+      font-weight: 500;
+      box-shadow: var(--shadow);
+    }
+
+    /* ========== Sections ========== */
+    section { padding: 80px 32px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-header { margin-bottom: 48px; }
+    .section-header h2 {
+      font-size: 28px; font-weight: 700; color: var(--text);
+      margin-bottom: 8px;
+    }
+    .section-header h2 span {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .section-header p { font-size: 15px; color: var(--text-muted); }
+
+    /* ========== About ========== */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+      align-items: start;
+    }
+    .about-text p { font-size: 15px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.9; }
+    .about-info { list-style: none; }
+    .about-info li {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 0; font-size: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .about-info li:last-child { border-bottom: none; }
+    .about-info .label { color: var(--text-muted); width: 80px; flex-shrink: 0; }
+    .about-info .value { color: var(--text); font-weight: 500; }
+
+    /* ========== Skills ========== */
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+    }
+    .skill-card {
+      background: var(--bg-card); border-radius: var(--radius);
+      padding: 28px; border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: all var(--transition);
+    }
+    .skill-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+    .skill-card h3 {
+      font-size: 16px; font-weight: 700; color: var(--primary);
+      margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+    }
+    .skill-card h3::before {
+      content: ""; display: inline-block; width: 4px; height: 18px;
+      background: var(--primary); border-radius: 2px;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-tag {
+      padding: 6px 14px; border-radius: 6px;
+      background: rgba(26,92,168,0.06); color: var(--primary);
+      font-size: 13px; font-weight: 500;
+    }
+
+    /* ========== Projects ========== */
+    .project-card {
+      background: var(--bg-card); border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 36px; margin-bottom: 32px;
+      transition: all var(--transition);
+    }
+    .project-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+    }
+    .project-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      flex-wrap: wrap; gap: 12px; margin-bottom: 16px;
+    }
+    .project-header h3 { font-size: 20px; font-weight: 700; color: var(--text); }
+    .project-date { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+    .project-tech {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;
+    }
+    .tech-tag {
+      padding: 4px 12px; border-radius: 4px;
+      background: rgba(0,201,167,0.1); color: #0EA57D;
+      font-size: 12px; font-weight: 600;
+    }
+    .project-desc {
+      font-size: 14px; color: var(--text-secondary); line-height: 1.9;
+      margin-bottom: 20px;
+    }
+    .project-highlights { list-style: none; }
+    .project-highlights li {
+      position: relative; padding-left: 20px; margin-bottom: 10px;
+      font-size: 14px; color: var(--text-secondary); line-height: 1.8;
+    }
+    .project-highlights li::before {
+      content: ""; position: absolute; left: 0; top: 10px;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--primary); opacity: 0.6;
+    }
+    .project-highlights strong { color: var(--primary); font-weight: 600; }
+
+    /* ========== Education & Awards ========== */
+    .edu-award-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .edu-card, .award-card {
+      background: var(--bg-card); border-radius: var(--radius);
+      padding: 32px; border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .edu-card h3, .award-card h3 {
+      font-size: 18px; font-weight: 700; color: var(--primary);
+      margin-bottom: 16px;
+    }
+    .edu-item { margin-bottom: 16px; }
+    .edu-item:last-child { margin-bottom: 0; }
+    .edu-item .school {
+      font-size: 15px; font-weight: 600; color: var(--text);
+    }
+    .edu-item .meta { font-size: 13px; color: var(--text-muted); margin: 4px 0; }
+    .edu-item .detail { font-size: 14px; color: var(--text-secondary); }
+    .award-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 0; border-bottom: 1px solid var(--border);
+    }
+    .award-item:last-child { border-bottom: none; }
+    .award-item .name { font-size: 14px; color: var(--text); font-weight: 500; }
+    .award-item .year { font-size: 13px; color: var(--text-muted); }
+
+    /* ========== Contact ========== */
+    .contact-section {
+      background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+      color: #fff;
+    }
+    .contact-section .section-header h2 { color: #fff; }
+    .contact-section .section-header p { color: rgba(255,255,255,0.5); }
+    .contact-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    }
+    .contact-card {
+      background: rgba(255,255,255,0.06); border-radius: var(--radius);
+      padding: 28px; border: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+      transition: all var(--transition);
+    }
+    .contact-card:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-4px);
+    }
+    .contact-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(26,92,168,0.3);
+      display: inline-flex; align-items: center; justify-content: center;
+      margin-bottom: 16px; font-size: 20px;
+    }
+    .contact-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+    .contact-card p { font-size: 14px; color: rgba(255,255,255,0.6); }
+    .contact-card a { color: rgba(255,255,255,0.8); }
+    .contact-card a:hover { color: #fff; }
+
+    /* ========== Footer ========== */
+    .footer {
+      background: #0F0F23; color: rgba(255,255,255,0.4);
+      text-align: center; padding: 24px 32px; font-size: 13px;
+    }
+
+    /* ========== Animations ========== */
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ========== Responsive ========== */
+    @media (max-width: 768px) {
+      .navbar-links { display: none; }
+      .navbar-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 64px; left: 0; right: 0;
+        background: rgba(255,255,255,0.98); backdrop-filter: blur(20px);
+        padding: 16px 32px; gap: 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      .mobile-toggle { display: block; }
+      .about-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .edu-award-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 36px; }
+      .hero-btns { flex-direction: column; }
+      .hero-btns .btn { text-align: center; justify-content: center; }
+      section { padding: 60px 20px; }
     }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased">
-  <!-- 导航栏 -->
-  <nav class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md z-50 border-b border-slate-200">
-    <div class="max-w-6xl mx-auto px-6 py-4">
-      <div class="flex items-center justify-between">
-        <a href="#" class="text-xl font-bold text-primary">
-          <span class="gradient-text">罗浩宇</span>
-        </a>
-        <div class="hidden md:flex items-center gap-8">
-          <a href="#about" class="text-slate-600 hover:text-accent transition-colors">关于</a>
-          <a href="#skills" class="text-slate-600 hover:text-accent transition-colors">技能</a>
-          <a href="#projects" class="text-slate-600 hover:text-accent transition-colors">项目</a>
-          <a href="#education" class="text-slate-600 hover:text-accent transition-colors">教育</a>
-          <a href="#contact" class="px-4 py-2 bg-accent text-white rounded-lg hover:bg-blue-600 transition-colors">联系我</a>
-        </div>
-        <!-- 移动端菜单按钮 -->
-        <button id="mobile-menu-btn" class="md:hidden p-2">
-          <i data-lucide="menu" class="w-6 h-6"></i>
-        </button>
-      </div>
-      <!-- 移动端菜单 -->
-      <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200 pt-4">
-        <div class="flex flex-col gap-4">
-          <a href="#about" class="text-slate-600 hover:text-accent transition-colors">关于</a>
-          <a href="#skills" class="text-slate-600 hover:text-accent transition-colors">技能</a>
-          <a href="#projects" class="text-slate-600 hover:text-accent transition-colors">项目</a>
-          <a href="#education" class="text-slate-600 hover:text-accent transition-colors">教育</a>
-          <a href="#contact" class="px-4 py-2 bg-accent text-white rounded-lg text-center hover:bg-blue-600 transition-colors">联系我</a>
-        </div>
-      </div>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="#hero" class="navbar-logo">LH</a>
+      <ul class="navbar-links" id="navLinks">
+        <li><a href="#about">关于</a></li>
+        <li><a href="#skills">技能</a></li>
+        <li><a href="#projects">项目</a></li>
+        <li><a href="#education">教育</a></li>
+        <li><a href="#contact">联系</a></li>
+      </ul>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="菜单">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section id="about" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 pt-20">
-    <div class="max-w-6xl mx-auto px-6 py-20">
-      <div class="grid md:grid-cols-2 gap-12 items-center">
-        <div class="section-fade">
-          <div class="flex items-center gap-2 mb-4">
-            <span class="w-2 h-2 bg-highlight rounded-full pulse-dot"></span>
-            <span class="text-highlight text-sm font-medium">正在寻找实习机会</span>
-          </div>
-          <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">
-            你好，我是<br>
-            <span class="gradient-text">罗浩宇</span>
-          </h1>
-          <p class="text-xl md:text-2xl text-slate-300 mb-6">
-            后端开发工程师 <span class="text-slate-500">|</span> AI 应用探索者
-          </p>
-          <p class="text-slate-400 mb-8 leading-relaxed">
-            湖南师范大学电子信息工程专业在读，热衷于用代码解决实际问题。
-            对 AI 与后端融合方向充满好奇，正在学习 Spring AI 与大模型应用开发。
-          </p>
-          <div class="flex flex-wrap gap-4">
-            <a href="./resume.docx" download="罗浩宇-简历.docx" class="px-6 py-3 bg-accent text-white rounded-lg font-medium hover:bg-blue-600 transition-colors flex items-center gap-2">
-              <i data-lucide="download" class="w-5 h-5"></i>
-              下载简历
-            </a>
-            <a href="#projects" class="px-6 py-3 bg-slate-700 text-white rounded-lg font-medium hover:bg-slate-600 transition-colors flex items-center gap-2">
-              <i data-lucide="folder-open" class="w-5 h-5"></i>
-              查看项目
-            </a>
-            <a href="https://github.com/Justin1uo" target="_blank" class="px-6 py-3 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700 transition-colors flex items-center gap-2">
-              <i data-lucide="github" class="w-5 h-5"></i>
-              GitHub
-            </a>
-          </div>
-        </div>
-        <div class="flex justify-center section-fade" style="animation-delay: 0.2s">
-          <div class="relative">
-            <div class="w-64 h-64 md:w-80 md:h-80 rounded-full bg-gradient-to-br from-accent to-highlight p-1 float-animation">
-              <div class="w-full h-full rounded-full bg-slate-800 flex items-center justify-center">
-                <span class="text-6xl md:text-8xl font-bold gradient-text">罗</span>
-              </div>
-            </div>
-            <div class="absolute -bottom-4 -right-4 bg-white rounded-lg shadow-lg p-3 flex items-center gap-2">
-              <i data-lucide="graduation-cap" class="w-5 h-5 text-accent"></i>
-              <span class="text-sm font-medium text-slate-700">211 工程院校</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 快速信息 -->
-  <section class="bg-white py-12 border-y border-slate-200">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-        <div class="text-center">
-          <div class="text-3xl font-bold text-accent mb-1">前 20%</div>
-          <div class="text-slate-500 text-sm">专业排名</div>
-        </div>
-        <div class="text-center">
-          <div class="text-3xl font-bold text-highlight mb-1">CET-4</div>
-          <div class="text-slate-500 text-sm">566 分</div>
-        </div>
-        <div class="text-center">
-          <div class="text-3xl font-bold text-accent mb-1">深圳</div>
-          <div class="text-slate-500 text-sm">意向城市</div>
-        </div>
-        <div class="text-center">
-          <div class="text-3xl font-bold text-highlight mb-1">7 月起</div>
-          <div class="text-slate-500 text-sm">可全职实习</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 技能展示 -->
-  <section id="skills" class="py-20 bg-slate-50">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-16 section-fade">
-        <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">技术技能</h2>
-        <p class="text-slate-500 max-w-2xl mx-auto">扎实的技术基础，完善的项目经验，持续学习的态度</p>
-      </div>
-      
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- 后端开发 -->
-        <div class="bg-white rounded-2xl p-6 card-hover border border-slate-200 section-fade">
-          <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
-            <i data-lucide="server" class="w-6 h-6 text-accent"></i>
-          </div>
-          <h3 class="text-lg font-semibold text-primary mb-3">后端开发</h3>
-          <div class="flex flex-wrap gap-2">
-            <span class="skill-tag px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">Java SE</span>
-            <span class="skill-tag px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">Spring Boot</span>
-            <span class="skill-tag px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">RESTful API</span>
-            <span class="skill-tag px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">IOC/AOP</span>
-            <span class="skill-tag px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">Lombok</span>
-            <span class="skill-tag px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">Docker</span>
-          </div>
-        </div>
-
-        <!-- 数据库 -->
-        <div class="bg-white rounded-2xl p-6 card-hover border border-slate-200 section-fade" style="animation-delay: 0.1s">
-          <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
-            <i data-lucide="database" class="w-6 h-6 text-highlight"></i>
-          </div>
-          <h3 class="text-lg font-semibold text-primary mb-3">数据库</h3>
-          <div class="flex flex-wrap gap-2">
-            <span class="skill-tag px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm">MySQL</span>
-            <span class="skill-tag px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm">Redis</span>
-            <span class="skill-tag px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm">索引优化</span>
-            <span class="skill-tag px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm">事务管理</span>
-          </div>
-        </div>
-
-        <!-- 中间件 & 工具 -->
-        <div class="bg-white rounded-2xl p-6 card-hover border border-slate-200 section-fade" style="animation-delay: 0.2s">
-          <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
-            <i data-lucide="wrench" class="w-6 h-6 text-purple-600"></i>
-          </div>
-          <h3 class="text-lg font-semibold text-primary mb-3">中间件 & 工具</h3>
-          <div class="flex flex-wrap gap-2">
-            <span class="skill-tag px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm">Linux</span>
-            <span class="skill-tag px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm">Git</span>
-            <span class="skill-tag px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm">Nginx</span>
-            <span class="skill-tag px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm">JWT</span>
-            <span class="skill-tag px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm">阿里云 OSS</span>
-          </div>
-        </div>
-
-        <!-- AI 工程 -->
-        <div class="bg-white rounded-2xl p-6 card-hover border border-slate-200 section-fade" style="animation-delay: 0.3s">
-          <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4">
-            <i data-lucide="brain" class="w-6 h-6 text-amber-600"></i>
-          </div>
-          <h3 class="text-lg font-semibold text-primary mb-3">AI 工程</h3>
-          <div class="flex flex-wrap gap-2">
-            <span class="skill-tag px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-sm">LLM</span>
-            <span class="skill-tag px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-sm">Prompt Engineering</span>
-            <span class="skill-tag px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-sm">MCP</span>
-            <span class="skill-tag px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-sm">Spring AI</span>
-            <span class="skill-tag px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-sm">Trae/Cursor</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 项目经历 -->
-  <section id="projects" class="py-20 bg-white">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-16 section-fade">
-        <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">项目经历</h2>
-        <p class="text-slate-500 max-w-2xl mx-auto">从实际项目中积累经验，在实践中成长</p>
-      </div>
-
-      <!-- 苍穹外卖项目 -->
-      <div class="max-w-4xl mx-auto section-fade">
-        <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-8 md:p-10 text-white">
-          <div class="flex flex-wrap items-center gap-4 mb-6">
-            <h3 class="text-2xl font-bold">苍穹外卖</h3>
-            <span class="px-3 py-1 bg-accent/20 text-accent rounded-full text-sm font-medium">主要项目</span>
-            <span class="px-3 py-1 bg-highlight/20 text-highlight rounded-full text-sm">2025.12 - 2026.05</span>
-          </div>
-          <p class="text-slate-300 mb-6 text-lg">
-            基于 Spring Boot 的前后端分离外卖平台，包含用户端、商家端、管理端三端，涵盖菜品管理、购物车、订单全流程、用户认证、报表统计等核心功能。
-          </p>
-          
-          <div class="grid md:grid-cols-2 gap-4 mb-8">
-            <div class="bg-slate-700/50 rounded-xl p-4">
-              <div class="flex items-center gap-2 mb-2">
-                <i data-lucide="check-circle" class="w-5 h-5 text-highlight"></i>
-                <span class="font-medium">技术栈</span>
-              </div>
-              <div class="flex flex-wrap gap-2">
-                <span class="px-2 py-1 bg-slate-600 rounded text-sm">Spring Boot</span>
-                <span class="px-2 py-1 bg-slate-600 rounded text-sm">MySQL</span>
-                <span class="px-2 py-1 bg-slate-600 rounded text-sm">Redis</span>
-                <span class="px-2 py-1 bg-slate-600 rounded text-sm">JWT</span>
-                <span class="px-2 py-1 bg-slate-600 rounded text-sm">Nginx</span>
-                <span class="px-2 py-1 bg-slate-600 rounded text-sm">WebSocket</span>
-              </div>
-            </div>
-            <div class="bg-slate-700/50 rounded-xl p-4">
-              <div class="flex items-center gap-2 mb-2">
-                <i data-lucide="zap" class="w-5 h-5 text-amber-400"></i>
-                <span class="font-medium">性能优化</span>
-              </div>
-              <p class="text-slate-400 text-sm">
-                使用 Redis 缓存菜品分类数据，结合 @Cacheable/@CacheEvict 注解管理缓存生命周期，减少高频查询数据库压力
-              </p>
-            </div>
-          </div>
-
-          <div class="space-y-4">
-            <div class="flex items-start gap-3">
-              <i data-lucide="circle-dot" class="w-5 h-5 text-accent mt-1 flex-shrink-0"></i>
-              <p class="text-slate-300">实现管理端 + 商家端完整业务模块，包括员工管理、菜品/套餐 CRUD、分类管理、订单状态机流转（待接单→备餐→派送→完成/取消）</p>
-            </div>
-            <div class="flex items-start gap-3">
-              <i data-lucide="circle-dot" class="w-5 h-5 text-accent mt-1 flex-shrink-0"></i>
-              <p class="text-slate-300">使用 JWT + 自定义拦截器实现双端（管理员/用户）Token 鉴权，做到接口级权限隔离</p>
-            </div>
-            <div class="flex items-start gap-3">
-              <i data-lucide="circle-dot" class="w-5 h-5 text-accent mt-1 flex-shrink-0"></i>
-              <p class="text-slate-300">集成阿里云 OSS 实现菜品图片上传，封装统一上传工具类，支持文件类型校验与 URL 回显</p>
-            </div>
-            <div class="flex items-start gap-3">
-              <i data-lucide="circle-dot" class="w-5 h-5 text-accent mt-1 flex-shrink-0"></i>
-              <p class="text-slate-300">采用 WebSocket 推送新订单提醒与催单通知，实现商家端实时消息感知</p>
-            </div>
-            <div class="flex items-start gap-3">
-              <i data-lucide="circle-dot" class="w-5 h-5 text-accent mt-1 flex-shrink-0"></i>
-              <p class="text-slate-300">利用 Apache POI 导出近 30 日营业额、订单量、客单价等运营数据 Excel 报表</p>
-            </div>
-            <div class="flex items-start gap-3">
-              <i data-lucide="circle-dot" class="w-5 h-5 text-accent mt-1 flex-shrink-0"></i>
-              <p class="text-slate-300">借助 Trae AI Coding 工具辅助编写样板代码与 SQL 语句，调试周期平均缩短约 40%</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 教育背景 & 获奖 -->
-  <section id="education" class="py-20 bg-slate-50">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-16 section-fade">
-        <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">教育背景 & 荣誉</h2>
-        <p class="text-slate-500 max-w-2xl mx-auto">扎实的学术基础，多元的技能培养</p>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-        <!-- 教育背景 -->
-        <div class="bg-white rounded-2xl p-8 card-hover border border-slate-200 section-fade">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center">
-              <i data-lucide="book-open" class="w-5 h-5 text-accent"></i>
-            </div>
-            <h3 class="text-xl font-bold text-primary">教育背景</h3>
-          </div>
-          
-          <div class="border-l-2 border-accent pl-6 space-y-6">
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <h4 class="font-semibold text-primary">湖南师范大学</h4>
-                <span class="text-sm text-slate-500">2024.09 - 2028.06</span>
-              </div>
-              <p class="text-accent font-medium mb-2">电子信息工程 · 本科在读 · 211 工程</p>
-              <div class="flex items-center gap-4 text-sm text-slate-500">
-                <span>预计 2028 年毕业</span>
-                <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
-                <span>专业排名前 20%</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="mt-6 pt-6 border-t border-slate-100">
-            <p class="text-sm font-medium text-slate-700 mb-3">核心课程</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-lg text-sm">JAVA语言程序设计</span>
-              <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-lg text-sm">C语言程序设计</span>
-              <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-lg text-sm">数据结构</span>
-              <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-lg text-sm">计算机网络</span>
-            </div>
-          </div>
-
-          <div class="mt-6 pt-6 border-t border-slate-100">
-            <p class="text-sm font-medium text-slate-700 mb-3">英语水平</p>
-            <div class="flex items-center gap-3">
-              <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium">CET-4</span>
-              <span class="text-2xl font-bold text-accent">566</span>
-              <span class="text-slate-500 text-sm">分</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 获奖经历 -->
-        <div class="bg-white rounded-2xl p-8 card-hover border border-slate-200 section-fade" style="animation-delay: 0.1s">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="w-10 h-10 bg-highlight/10 rounded-lg flex items-center justify-center">
-              <i data-lucide="trophy" class="w-5 h-5 text-highlight"></i>
-            </div>
-            <h3 class="text-xl font-bold text-primary">获奖经历</h3>
-          </div>
-
-          <div class="space-y-6">
-            <div class="flex gap-4">
-              <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                <i data-lucide="medal" class="w-6 h-6 text-amber-600"></i>
-              </div>
-              <div>
-                <h4 class="font-semibold text-primary mb-1">全国大学生数学竞赛</h4>
-                <p class="text-sm text-slate-500 mb-2">非数学专业组 · 初赛</p>
-                <div class="inline-flex items-center gap-1 px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-sm font-medium">
-                  <i data-lucide="award" class="w-4 h-4"></i>
-                  二等奖
-                </div>
-                <p class="text-sm text-slate-400 mt-1">2023 年</p>
-              </div>
-            </div>
-
-            <div class="flex gap-4">
-              <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                <i data-lucide="star" class="w-6 h-6 text-blue-600"></i>
-              </div>
-              <div>
-                <h4 class="font-semibold text-primary mb-1">湖南师范大学综合奖学金</h4>
-                <p class="text-sm text-slate-500 mb-2">校级奖学金</p>
-                <div class="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
-                  <i data-lucide="badge" class="w-4 h-4"></i>
-                  三等奖
-                </div>
-                <p class="text-sm text-slate-400 mt-1">2025 年</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 自我评价 -->
-  <section class="py-20 bg-gradient-to-br from-accent to-highlight">
-    <div class="max-w-4xl mx-auto px-6 text-center section-fade">
-      <h2 class="text-3xl md:text-4xl font-bold text-white mb-8">自我评价</h2>
-      <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 md:p-12">
-        <p class="text-xl text-white/90 leading-relaxed mb-8">
-          对后端开发与 AI 应用方向有浓厚兴趣，具备扎实的 Java 后端技术栈与完整的项目实战经验。
-          关注 AI 行业动态，理解大模型工作原理，熟悉 <strong>Prompt Engineering</strong> 与 <strong>MCP</strong> 等前沿工程范式，
-          并持续学习 Spring AI 以跟进 AI + 后端融合方向。
-        </p>
-        <p class="text-xl text-white/90 leading-relaxed">
-          擅长借助 AI Coding 工具（Trae / Cursor）高效开发，具备快速学习与自驱能力。
-        </p>
-        <div class="mt-8 flex flex-wrap justify-center gap-4">
-          <span class="px-4 py-2 bg-white/20 text-white rounded-full text-sm">可全职实习</span>
-          <span class="px-4 py-2 bg-white/20 text-white rounded-full text-sm">自驱力强</span>
-          <span class="px-4 py-2 bg-white/20 text-white rounded-full text-sm">快速学习</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 联系方式 -->
-  <section id="contact" class="py-20 bg-slate-900">
-    <div class="max-w-4xl mx-auto px-6">
-      <div class="text-center mb-16 section-fade">
-        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">联系我</h2>
-        <p class="text-slate-400">对简历有任何问题，或想进一步交流，欢迎联系我</p>
-      </div>
-
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-        <a href="./resume.docx" download="罗浩宇-简历.docx" class="bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl p-6 text-center card-hover border border-blue-500 section-fade">
-          <div class="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-            <i data-lucide="download" class="w-7 h-7 text-white"></i>
-          </div>
-          <h3 class="font-semibold text-white mb-1">下载简历</h3>
-          <p class="text-blue-200 text-sm">DOCX 格式</p>
-        </a>
-
-        <a href="mailto:3080048151@qq.com" class="bg-slate-800 rounded-2xl p-6 text-center card-hover border border-slate-700 section-fade" style="animation-delay: 0.1s">
-          <div class="w-14 h-14 bg-accent/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-            <i data-lucide="mail" class="w-7 h-7 text-accent"></i>
-          </div>
-          <h3 class="font-semibold text-white mb-1">邮箱</h3>
-          <p class="text-slate-400 text-sm">3080048151@qq.com</p>
-        </a>
-
-        <a href="tel:18570049418" class="bg-slate-800 rounded-2xl p-6 text-center card-hover border border-slate-700 section-fade" style="animation-delay: 0.2s">
-          <div class="w-14 h-14 bg-highlight/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-            <i data-lucide="phone" class="w-7 h-7 text-highlight"></i>
-          </div>
-          <h3 class="font-semibold text-white mb-1">电话</h3>
-          <p class="text-slate-400 text-sm">185 7004 9418</p>
-        </a>
-
-        <a href="https://github.com/Justin1uo" target="_blank" class="bg-slate-800 rounded-2xl p-6 text-center card-hover border border-slate-700 section-fade" style="animation-delay: 0.3s">
-          <div class="w-14 h-14 bg-purple-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-            <i data-lucide="github" class="w-7 h-7 text-purple-400"></i>
-          </div>
-          <h3 class="font-semibold text-white mb-1">GitHub</h3>
-          <p class="text-slate-400 text-sm">github.com/Justin1uo</p>
-        </a>
-      </div>
-
-      <div class="text-center section-fade" style="animation-delay: 0.3s">
-        <p class="text-slate-400 mb-4">意向城市</p>
-        <div class="flex justify-center gap-4">
-          <span class="px-6 py-3 bg-slate-800 text-white rounded-full border border-slate-700">深圳</span>
-          <span class="px-6 py-3 bg-slate-800 text-white rounded-full border border-slate-700">广州</span>
-          <span class="px-6 py-3 bg-slate-800 text-white rounded-full border border-slate-700">长沙</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 页脚 -->
-  <footer class="bg-slate-950 py-8">
-    <div class="max-w-6xl mx-auto px-6 text-center">
-      <p class="text-slate-500 text-sm">
-        © 2026 罗浩宇 · 后端开发 / AI 应用开发
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-inner">
+      <div class="hero-tag">👨💻 日常实习 · 2026 暑期</div>
+      <h1>罗浩宇</h1>
+      <p class="hero-sub">
+        后端开发 / AI 应用开发<br>
+        湖南师范大学（211）· 电子信息工程 · 预计 2028 年毕业<br>
+        意向城市：深圳 · 广州 · 长沙
       </p>
-      <p class="text-slate-600 text-xs mt-2">
-        Built with Tailwind CSS
-      </p>
+      <div class="hero-btns">
+        <a href="mailto:3080048151@qq.com" class="btn btn-primary">📧 联系我</a>
+        <a href="../resume.docx" download class="btn btn-outline">📄 下载简历</a>
+        <a href="https://github.com/Justin1uo" target="_blank" class="btn btn-outline">🔗 GitHub</a>
+      </div>
+      <div class="hero-badges">
+        <span class="badge">🎓 211 工程院校</span>
+        <span class="badge">🏆 专业排名前 20%</span>
+        <span class="badge">📚 CET-4 566 分</span>
+        <span class="badge">📍 7 月起可全职实习</span>
+      </div>
     </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="section-inner">
+      <div class="section-header fade-in">
+        <h2><span>01</span> / 关于我</h2>
+        <p>对后端开发与 AI 应用方向有浓厚兴趣，具备扎实的 Java 后端技术栈与完整的项目实战经验</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-text fade-in">
+          <p>我是一名电子信息工程专业的大二学生，专注于 <strong>Java 后端开发</strong>与 <strong>AI 应用开发</strong>方向。</p>
+          <p>通过完整项目（苍穹外卖、黑马点评）积累了 Spring Boot、Redis、MySQL 等核心技术的实战经验，尤其对 Redis 高并发场景有深入理解。</p>
+          <p>同时关注 AI 行业动态，正在学习 Spring AI 框架，探索 AI + 后端融合的工程落地方案。擅长借助 AI Coding 工具高效开发，具备快速学习与自驱能力。</p>
+        </div>
+        <div class="fade-in">
+          <ul class="about-info">
+            <li><span class="label">姓名</span><span class="value">罗浩宇</span></li>
+            <li><span class="label">学校</span><span class="value">湖南师范大学（211）</span></li>
+            <li><span class="label">专业</span><span class="value">电子信息工程</span></li>
+            <li><span class="label">毕业</span><span class="value">预计 2028 年 6 月</span></li>
+            <li><span class="label">排名</span><span class="value">专业前 20%</span></li>
+            <li><span class="label">英语</span><span class="value">CET-4 566 分</span></li>
+            <li><span class="label">实习</span><span class="value">7 月起可全职</span></li>
+            <li><span class="label">意向</span><span class="value">深圳 · 广州 · 长沙</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" style="background: #F7F9FC;">
+    <div class="section-inner">
+      <div class="section-header fade-in">
+        <h2><span>02</span> / 技术技能</h2>
+        <p>Java 后端全栈能力，持续学习 AI 工程方向</p>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-card fade-in">
+          <h3>后端开发</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">Java SE</span>
+            <span class="skill-tag">Spring Boot</span>
+            <span class="skill-tag">RESTful API</span>
+            <span class="skill-tag">IOC / AOP</span>
+            <span class="skill-tag">Maven</span>
+            <span class="skill-tag">Lombok</span>
+            <span class="skill-tag">Docker</span>
+          </div>
+        </div>
+        <div class="skill-card fade-in">
+          <h3>数据库</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">MySQL</span>
+            <span class="skill-tag">索引优化</span>
+            <span class="skill-tag">事务管理</span>
+            <span class="skill-tag">Redis</span>
+            <span class="skill-tag">缓存设计</span>
+            <span class="skill-tag">持久化 RDB/AOF</span>
+          </div>
+        </div>
+        <div class="skill-card fade-in">
+          <h3>中间件 & 工具</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">Linux</span>
+            <span class="skill-tag">Git</span>
+            <span class="skill-tag">Nginx</span>
+            <span class="skill-tag">JWT 鉴权</span>
+            <span class="skill-tag">阿里云 OSS</span>
+            <span class="skill-tag">WebSocket</span>
+          </div>
+        </div>
+        <div class="skill-card fade-in">
+          <h3>AI 工程</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">LLM 原理</span>
+            <span class="skill-tag">Prompt Engineering</span>
+            <span class="skill-tag">MCP 协议</span>
+            <span class="skill-tag">Spring AI</span>
+            <span class="skill-tag">Trae AI</span>
+            <span class="skill-tag">Cursor</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="section-inner">
+      <div class="section-header fade-in">
+        <h2><span>03</span> / 项目经历</h2>
+        <p>两个完整项目，覆盖后端开发核心场景</p>
+      </div>
+
+      <!-- 苍穹外卖 -->
+      <div class="project-card fade-in">
+        <div class="project-header">
+          <h3>🍔 苍穹外卖 — 外卖平台后端系统</h3>
+          <span class="project-date">2025.12 — 2026.05</span>
+        </div>
+        <div class="project-tech">
+          <span class="tech-tag">Spring Boot</span>
+          <span class="tech-tag">MySQL</span>
+          <span class="tech-tag">Redis</span>
+          <span class="tech-tag">JWT</span>
+          <span class="tech-tag">Nginx</span>
+          <span class="tech-tag">阿里云 OSS</span>
+          <span class="tech-tag">WebSocket</span>
+          <span class="tech-tag">Git</span>
+        </div>
+        <p class="project-desc">
+          基于 Spring Boot 的前后端分离外卖平台，包含用户端、商家端、管理端三端，
+          涵盖菜品管理、购物车、订单全流程、用户认证、报表统计等核心功能。
+        </p>
+        <ul class="project-highlights">
+          <li>实现<strong>管理端 + 商家端</strong>完整业务模块，包括员工管理、菜品/套餐 CRUD、分类管理、<strong>订单状态机流转</strong>（待接单→备餐→派送→完成/取消），保证业务逻辑闭环</li>
+          <li>基于 <strong>Redis 缓存</strong>菜品分类数据，利用 <strong>@Cacheable / @CacheEvict</strong> 注解管理缓存生命周期，将高频查询接口数据库调用量<strong>降低约 70%</strong></li>
+          <li>使用 <strong>JWT + 自定义拦截器</strong>实现双端（管理员/用户）Token 鉴权，做到<strong>接口级权限隔离</strong></li>
+          <li>集成 <strong>阿里云 OSS</strong> 实现菜品图片上传，封装统一上传工具类，支持文件类型校验与 URL 回显</li>
+          <li>采用 <strong>WebSocket</strong> 推送新订单提醒与催单通知，实现商家端实时消息感知</li>
+          <li>利用 <strong>Apache POI</strong> 导出近 30 日营业额、订单量、客单价等运营数据 Excel 报表，支持管理端一键下载</li>
+          <li>借助 <strong>Trae AI Coding 工具</strong>辅助编写样板代码与 SQL 语句，调试周期<strong>平均缩短约 40%</strong></li>
+        </ul>
+      </div>
+
+      <!-- 黑马点评 -->
+      <div class="project-card fade-in">
+        <div class="project-header">
+          <h3>⭐ 黑马点评 — 同城商铺点评平台（Redis 高并发实践）</h3>
+          <span class="project-date">2026.05 — 至今</span>
+        </div>
+        <div class="project-tech">
+          <span class="tech-tag">Spring Boot</span>
+          <span class="tech-tag">Redis</span>
+          <span class="tech-tag">MySQL</span>
+          <span class="tech-tag">JWT</span>
+        </div>
+        <p class="project-desc">
+          基于 Spring Boot + Redis 的本地生活点评平台，重点深入 Redis 在真实业务场景中的核心应用与高并发方案。
+        </p>
+        <ul class="project-highlights">
+          <li>基于 <strong>Redis String</strong> 存储短信验证码（TTL 120s 限制频繁发送），结合 <strong>Token 机制</strong>替代传统 Session，解决分布式场景下 Session 共享问题；通过拦截器自动刷新 Token 有效期，实现无感续期</li>
+          <li>系统性解决<strong>缓存三大问题</strong>：<strong>缓存穿透</strong>采用空值缓存方案拦截非法 key 直透；<strong>缓存击穿</strong>同时实践互斥锁（setnx）与<strong>逻辑过期</strong>两种方案，深入理解强一致与高可用的取舍；<strong>缓存雪崩</strong>通过随机 TTL 离散化过期时间，避免大批缓存同时失效冲击数据库</li>
+          <li>秒杀场景下以<strong>乐观锁（CAS）</strong>解决库存超卖问题；基于 <strong>Redis setnx</strong> 实现分布式锁原型，进一步引入 <strong>Redisson</strong> 解决锁的可重入、Watch Dog 自动续约及 <strong>Lua 脚本</strong>保证释放操作原子性问题</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education & Awards -->
+  <section id="education" style="background: #F7F9FC;">
+    <div class="section-inner">
+      <div class="section-header fade-in">
+        <h2><span>04</span> / 教育背景 & 荣誉</h2>
+        <p>扎实的学业基础与竞赛获奖经历</p>
+      </div>
+      <div class="edu-award-grid">
+        <div class="edu-card fade-in">
+          <h3>🎓 教育背景</h3>
+          <div class="edu-item">
+            <div class="school">湖南师范大学（211 工程）</div>
+            <div class="meta">2024.09 — 2028.06（预计）</div>
+            <div class="detail">电子信息工程 · 本科在读 · 专业排名：<strong>前 20%</strong></div>
+          </div>
+          <div class="edu-item" style="margin-top: 16px;">
+            <div class="school">英语水平</div>
+            <div class="detail">CET-4 <strong>566 分</strong></div>
+          </div>
+          <div class="edu-item" style="margin-top: 16px;">
+            <div class="school">核心课程</div>
+            <div class="detail">Java 语言程序设计、C 语言程序设计、数据结构、计算机网络</div>
+          </div>
+        </div>
+        <div class="award-card fade-in">
+          <h3>🏆 获奖经历</h3>
+          <div class="award-item">
+            <span class="name">全国大学生数学竞赛（非数学专业组）二等奖</span>
+            <span class="year">2023</span>
+          </div>
+          <div class="award-item">
+            <span class="name">湖南师范大学综合奖学金（三等奖）</span>
+            <span class="year">2025</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact-section" id="contact">
+    <div class="section-inner">
+      <div class="section-header fade-in">
+        <h2><span>05</span> / 联系我</h2>
+        <p>欢迎招聘方通过以下方式联系我，期待实习机会！</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card fade-in">
+          <div class="contact-icon">📧</div>
+          <h4>邮箱</h4>
+          <p><a href="mailto:3080048151@qq.com">3080048151@qq.com</a></p>
+        </div>
+        <div class="contact-card fade-in">
+          <div class="contact-icon">📱</div>
+          <h4>电话</h4>
+          <p><a href="tel:18570049418">185-7004-9418</a></p>
+        </div>
+        <div class="contact-card fade-in">
+          <div class="contact-icon">💻</div>
+          <h4>GitHub</h4>
+          <p><a href="https://github.com/Justin1uo" target="_blank">github.com/Justin1uo</a></p>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 48px;" class="fade-in">
+        <a href="../resume.docx" download class="btn btn-primary" style="font-size: 16px; padding: 14px 36px;">
+          📄 下载我的简历（DOCX）
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2026 罗浩宇 · 后端开发 / AI 应用开发 &nbsp;|&nbsp; Built with ❤️</p>
   </footer>
 
-  <!-- 返回顶部 -->
-  <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 bg-accent text-white rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:bg-blue-600">
-    <i data-lucide="arrow-up" class="w-5 h-5"></i>
-  </button>
-
+  <!-- Scripts -->
   <script>
-    // 初始化 Lucide 图标
-    lucide.createIcons();
-
-    // 移动端菜单
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    
-    mobileMenuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 10);
     });
 
-    // 滚动动画
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
+    // Mobile menu toggle
+    const mobileToggle = document.getElementById('mobileToggle');
+    const navLinks = document.getElementById('navLinks');
+    mobileToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+    // Close mobile menu on link click
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
 
+    // Scroll fade-in animation
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.style.animationPlayState = 'running';
+          entry.target.classList.add('visible');
         }
       });
-    }, observerOptions);
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-    document.querySelectorAll('.section-fade').forEach(el => {
-      el.style.animationPlayState = 'paused';
-      observer.observe(el);
-    });
-
-    // 返回顶部
-    const backToTop = document.getElementById('back-to-top');
-    
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 500) {
-        backToTop.classList.remove('opacity-0', 'invisible');
-        backToTop.classList.add('opacity-100', 'visible');
-      } else {
-        backToTop.classList.add('opacity-0', 'invisible');
-        backToTop.classList.remove('opacity-100', 'visible');
-      }
-    });
-
-    backToTop.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // 平滑滚动
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          const offsetTop = target.offsetTop - 80;
-          window.scrollTo({
-            top: offsetTop,
-            behavior: 'smooth'
-          });
-          // 关闭移动端菜单
-          mobileMenu.classList.add('hidden');
-        }
-      });
-    });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
